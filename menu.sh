@@ -36,7 +36,7 @@ display_version_menu() {
     echo -e "${YELLOW}"
     echo "╔══════════════════════════════════════════════╗"
     echo "║                                              ║"
-    echo "║   🚀 HUSTLE AIRDROPS SYSTEM SETUP TOOL       ║"
+    echo "║   🚀 H USTLE AIRDROPS SYSTEM SETUP TOOL       ║"
     echo "║                                              ║"
     echo "╚══════════════════════════════════════════════╝"
     echo -e "${NC}"
@@ -68,7 +68,7 @@ ask_pem_backup() {
         echo -e "${YELLOW}"
         echo "╔══════════════════════════════════════════════╗"
         echo "║                                              ║"
-        echo "║   🚀 HUSTLE AIRDROPS SYSTEM SETUP TOOL       ║"
+        echo "║   🚀 HU STLE AIRDROPS SYSTEM SETUP TOOL       ║"
         echo "║                                              ║"
         echo "╚══════════════════════════════════════════════╝"
         echo -e "${NC}"
@@ -81,8 +81,17 @@ ask_pem_backup() {
             BACKUP_PEM=true
         fi
     fi
-    # Call setup.sh with chosen options
-    bash setup.sh "$USE_LATEST" "$BACKUP_PEM"
+    # Download and execute remote setup.sh
+    echo -e "${YELLOW}📥 Downloading setup script...${NC}"
+    SETUP_URL="https://raw.githubusercontent.com/HustleAirdrops/gensyn-new-menu-testing/main/setup.sh"
+    TEMP_SCRIPT="/tmp/setup.sh"
+    curl -fsSL "$SETUP_URL" -o "$TEMP_SCRIPT" || {
+        echo -e "${RED}❌ Failed to download setup.sh from $SETUP_URL${NC}"
+        exit 1
+    }
+    chmod +x "$TEMP_SCRIPT"
+    bash "$TEMP_SCRIPT" "$USE_LATEST" "$BACKUP_PEM"
+    rm -f "$TEMP_SCRIPT"
 }
 
 # Start with main menu
